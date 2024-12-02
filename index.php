@@ -54,8 +54,32 @@
         crossorigin="anonymous"></script>
     <script src="./jquery-3.7.1.min.js"></script>
     <script>
-        $(document).ready(function(page) {
-            function loadTable() {
+        // $(document).ready(function(page) {
+        //     function loadTable() {
+        //         $.ajax({
+        //             url: 'backend.php',
+        //             type: 'POST',
+        //             data: {
+        //                 page_no: page
+        //             },
+        //             success: function(data) {
+        //                 $('#table-data').append(data);
+
+        //             }
+        //         });
+        //     }
+        //     loadTable();
+
+        //     $(document).on('click', '#ajaxbtn', function() {
+        //         var pid = $(this).data('id');
+        //         loadTable(pid);
+
+        //     });
+        // });
+        $(document).ready(function() {
+            var currentPage = 0;
+
+            function loadTable(page) {
                 $.ajax({
                     url: 'backend.php',
                     type: 'POST',
@@ -63,12 +87,25 @@
                         page_no: page
                     },
                     success: function(data) {
-                        $('#table-data').append(data);
+                        if (data != "no data") {
+                            $('#pagaination').remove();
+                            $('#table-data').append(data);
+                            currentPage++;
+                        } else {
 
+                            $('#ajaxbtn').prop('disabled', true).text("No More Data");
+                        }
                     }
                 });
             }
-            loadTable();
+
+            loadTable(currentPage);
+
+            $(document).on('click', '#ajaxbtn', function() {
+                $('#ajaxbtn').html('loading...');
+
+                loadTable(currentPage);
+            });
         });
     </script>
 </body>

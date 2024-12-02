@@ -21,8 +21,9 @@ if (mysqli_num_rows($query) > 0) {
     $output = "";
     $output .= "<tbody>";
     while ($row = mysqli_fetch_assoc($query)) {
+        $last_id = $row['id'];
         $output .= "
-       
+
                         <tr>
                             <td >{$row['id']}</td>
                             <td>{$row['email']}</td>
@@ -31,9 +32,9 @@ if (mysqli_num_rows($query) > 0) {
     }
     $output .= "
                     </tbody>
-                    <tbody>
+                    <tbody id='pagaination'>
                         <tr>
-                            <td colspan='3' class='text-center'><button id='ajaxbtn' data-id=''>Load More Data</button></td>
+                            <td colspan='3' class='text-center'><button id='ajaxbtn' data-id='" . ($page + 1) . "'>Load More Data</button></td>
                         </tr>
                     </tbody>";
     echo $output;
